@@ -67,17 +67,17 @@ function App() {
                     <Home/>
                 </Route>
                 <Route exact path="/songs">
-                    <Songs addReviewToState={addReviewToState}/>
+ 
                 </Route>
                 <Route exact path="/albums">
-                    <Reviews reviews={displayReviews}/>
+                   
                 </Route>
                 <Route exact path="/users">
-                    <Users/>
+                   
                 </Route>
-                <Route path="/profile">
-                    <Profile removeReviewFromState={removeReviewFromState}/>
-                </Route>
+               
+                
+               
             </Switch>
         </UserProvider>
     </div>
