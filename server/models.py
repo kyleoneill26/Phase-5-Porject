@@ -4,8 +4,7 @@ from sqlalchemy.orm import validates
 from sqlalchemy.ext.associationproxy import association_proxy
 from sqlalchemy_serializer import SerializerMixin
 from config import db
-
-from models import User,Song,Album,Artist,Playlist
+from flask import Flask
 
 class User(db.Model, SerializerMixin):
     __tablename__ = 'users'
@@ -21,21 +20,21 @@ class User(db.Model, SerializerMixin):
     playlists = db.relationship("Playlist", backref="user")
     
 
-    @validates('password')
-    def validate_password(self, key, password):
-        if password == "":
-            raise ValueError("Must provide a password")
-        return password
+    # @validates('password')
+    # def validate_password(self, key, password):
+    #     if password == "":
+    #         raise ValueError("Must provide a password")
+    #     return password
 
-    @validates('email')
-    def validate_email(self, key, email):
-        if (email == "") or ('@' not in email) or ('.' not in email):
-            raise ValueError("Must provide a valid email")
-        return email
+    # @validates('email')
+    # def validate_email(self, key, email):
+    #     if (email == "") or ('@' not in email) or ('.' not in email):
+    #         raise ValueError("Must provide a valid email")
+    #     return email
 
-    @hybrid_property
-    def password_hash(self):
-        return self._password_hash
+    # @hybrid_property
+    # def password_hash(self):
+    #     return self._password_hash
     
     # @password_hash.setter
     # def password_hash(self, password):

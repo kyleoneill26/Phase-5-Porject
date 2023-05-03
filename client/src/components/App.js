@@ -11,9 +11,43 @@ function App() {
   const [playlists, setPlaylists] = useState([])
   const [users, setUsers] = useState([])
   
+  function onLogout() {
+    setCurrentUser(null);
+    history.push('/')
+}
 
+const onCreateAccount = userObj => {
+    setUsers( [ ...users, userObj ] )
+}
+
+function onLogin(user) {
+    setCurrentUser(user);
+    history.push('/account')
+}
+
+function onDeleteAccount() {
+    const requestOptions = {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({id: currentUser.id})
+    };
+    fetch(`/playlists/${currentUser.id}`, requestOptions)
+        .then(setCurrentUser(null))
+        .then(history.push('/'))
+}
 
   
+useEffect(() => {
+  fetch("/check_session").then((response) => {
+      if (response.ok) {
+          response.json().then((customer) => setCurrentUser(customer));
+      }
+  });
+  }, []);
+
+
+
+
 
   useEffect(() => {
     fetch('/songs')
@@ -56,30 +90,36 @@ function App() {
   // }
 
   return (
-    <div>
-        <UserProvider>
-            <Header />
-            <Route exact path='/users/:id'>
-                <ViewProfile />
-            </Route>
+    <div className='App'>
+        <header>
+         
+            <NavBar className="App-header"/>
             <Switch>
-                <Route exact path="/">
-                    <Home/>
+                <Route path='/songs'>
+                    <MoviePage changeSearch={changeSearch} addSong={addSongs} movies={searchedSongs} className="App-header"/>
                 </Route>
-                <Route exact path="/songs">
- 
+                <Route path='/account'>
+                    <AccountPage className="App-header" currentUser={currentUser} onLogout={onLogout} />
                 </Route>
-                <Route exact path="/albums">
-                   
+                <Route path='/playlists'>
+                    <AboutMe className="App-header"/>
                 </Route>
-                <Route exact path="/users">
-                   
+                <Route path='/login'>
+                    <LoginPage className="App-header" currentUser={currentUser} onLogin={onLogin} onLogout={onLogout} />
                 </Route>
                
-                
+                <Route path='/update_account'>
+                    <UpdateAccount className="App-header" currentUser={currentUser} setCurrentUser={setCurrentUser} onLogout={onLogout} onDeleteAccount={onDeleteAccount} />
+                </Route>
                
+                <Route path='/'>
+                    <Home className="App-header"/>
+                </Route>
+                <Route path='*'>
+                    <h1>404 not found</h1>
+                </Route>
             </Switch>
-        </UserProvider>
+        </header>
     </div>
   );
 }
