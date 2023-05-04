@@ -6,10 +6,8 @@
     background-color: black;
   }
   
-  .login > img {
-    width: auto;
-    height: 200px;
-  }
+ 
+  
   
   .login > a {
     padding: 20px;
@@ -19,3 +17,5 @@
     text-decoration: none;
     background-color: #1db954;
   }
+
+ 

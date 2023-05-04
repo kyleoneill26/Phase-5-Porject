@@ -1,4 +1,5 @@
-from flask import Flask, make_response, request, session, jsonify
+from flask import Flask, request, make_response, session
+from flask_migrate import Migrate
 from flask_migrate import Migrate
 from flask_restful import Api, Resource
 from flask_cors import CORS
@@ -9,116 +10,43 @@ from config import app, db, api
 from models import User,Song,Album,Artist,Playlist
 
 
-app = Flask( __name__ )
 
-migrate = Migrate( app, db )
-db.init_app( app )
-api = Api( app )
+app.secret_key = b"\x7f\x7f(\xe8\x0c('\xa8\xa5\x82pb\t\x1d>rZ\x8c^\x7f\xbb\xe2L|"
 
-# Views go here!
 
-class Signup(Resource):
-    
-    def post(self):
+class CheckSession(Resource):
 
-        user_attr = ["username", "password", "email"]
-        user_obj = {}
+    def get(self):
+        user = User.query.filter(User.id == session.get('user_id')).first()
+        if user:
+            return user.to_dict()
+        else:
+            return {'message': '401: Not Authorized'}, 401
 
-        for attr in user_attr:
-            try:
-                user_obj[attr] = request.get_json()[attr]
-            except ValueError as e:
-                return make_response({"Value Error": f"{e}"}, 400)
-            
-        newUser = User( 
-                    username = user_obj[f'{user_attr[0]}'],
-                    password_hash = user_obj[f'{user_attr[1]}'],
-                    email = user_obj[f'{user_attr[2]}'],
-                    )
-        
-        try:
-            db.session.add(newUser)
-            db.session.commit()       
-        except IntegrityError:
-            db.session.rollback()
-            return make_response({
-                    "Integrity Error": "Invalid Username"
-                }, 400)
-
-        db_user = User.query.filter(User.username == user_obj[f'{user_attr[0]}']).one()
-        session['user_id'] = db_user.id
-
-        response = make_response(
-            newUser.to_dict(
-                only = ('username', 'email')
-            ),
-            201
-            )
-
-        return response    
+api.add_resource(CheckSession, '/check_session')
 
 class Login(Resource):
 
     def post(self):
-
-        sub_user = request.get_json().get('username')
-        sub_pass = request.get_json().get('password')
-
-        sel_user = User.query.filter(User.username == sub_user).one_or_none()
-        if sel_user == None or sel_user.authenticate(sub_pass) == False:
-            return make_response({"error":"Invalid Entry"}, 401)
+        user = User.query.filter(
+            User.email == request.get_json()['email']
+        ).first()
+        
+        if (user.password == request.get_json()['password']):
+            session['user_id'] = user.id
+            return user.to_dict()
         else:
-            session['user_id'] = sel_user.id
-            response = make_response(
-                sel_user.to_dict(
-                   only = ('username','email') 
-                ),
-                201
-                )
-            return response
+            return {'message': '401: Not Authorized'}, 401
+
+api.add_resource(Login, '/login')
 
 class Logout(Resource):
-    
+
     def delete(self):
-        session.pop('user_id', None)
-        response = make_response({"message":"You have been logged out"})
-        return response
+        session['user_id'] = None
+        return {'message': '204: No Content'}, 204
 
-class CurrentSession(Resource):
-    
-    def get(self):
-
-        if session['user_id'] is not None:
-            
-            sel_user = User.query.filter(User.id == session['user_id']).one()
-            return make_response(
-                sel_user.to_dict(
-                    only = ('username','email')
-                ),
-                200
-                )
-
-        else:
-            return make_response(
-                {"error":"User not found! Please Sign In!"},
-                404
-            )
-   
-
-class Home(Resource):
-
-    def get(self):
-        pass
-
-
-api.add_resource(Signup, '/signup')
-api.add_resource(Login, '/login')
 api.add_resource(Logout, '/logout')
-api.add_resource(CurrentSession, '/currentsession')
-
-if __name__ == '__main__':
-    app.run(port=5555, debug=True)
-
 
 
 

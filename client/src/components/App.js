@@ -1,15 +1,22 @@
 import React, { useEffect, useState } from "react";
-import { Switch, Route } from "react-router-dom";
-import Home from "./Home";
+import { Switch, Route, NavLink, useHistory } from "react-router-dom";
+import Login from "./Login";
+import Header from "./Header";
+
 
 
 
 function App() {
+
+  const API_KEY = `b"\x7f\x7f(\xe8\x0c('\xa8\xa5\x82pb\t\x1d>rZ\x8c^\x7f\xbb\xe2L|"`
+  
   const [songs, setSongs] = useState([])
   const [artists, setArtists] = useState([])
   const [albums, setAlbums] = useState([])
   const [playlists, setPlaylists] = useState([])
   const [users, setUsers] = useState([])
+  const [currentUser, setCurrentUser] = useState(null);
+  const history = useHistory();
   
   function onLogout() {
     setCurrentUser(null);
@@ -91,37 +98,15 @@ useEffect(() => {
 
   return (
     <div className='App'>
-        <header>
+        <Login></Login>
          
-            <NavBar className="App-header"/>
-            <Switch>
-                <Route path='/songs'>
-                    <MoviePage changeSearch={changeSearch} addSong={addSongs} movies={searchedSongs} className="App-header"/>
-                </Route>
-                <Route path='/account'>
-                    <AccountPage className="App-header" currentUser={currentUser} onLogout={onLogout} />
-                </Route>
-                <Route path='/playlists'>
-                    <AboutMe className="App-header"/>
-                </Route>
-                <Route path='/login'>
-                    <LoginPage className="App-header" currentUser={currentUser} onLogin={onLogin} onLogout={onLogout} />
-                </Route>
-               
-                <Route path='/update_account'>
-                    <UpdateAccount className="App-header" currentUser={currentUser} setCurrentUser={setCurrentUser} onLogout={onLogout} onDeleteAccount={onDeleteAccount} />
-                </Route>
-               
-                <Route path='/'>
-                    <Home className="App-header"/>
-                </Route>
-                <Route path='*'>
-                    <h1>404 not found</h1>
-                </Route>
-            </Switch>
-        </header>
+          
+           
+            
+       
     </div>
-  );
+
+);
 }
 
 

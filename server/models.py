@@ -20,24 +20,17 @@ class User(db.Model, SerializerMixin):
     playlists = db.relationship("Playlist", backref="user")
     
 
-    # @validates('password')
-    # def validate_password(self, key, password):
-    #     if password == "":
-    #         raise ValueError("Must provide a password")
-    #     return password
-
-    # @validates('email')
-    # def validate_email(self, key, email):
-    #     if (email == "") or ('@' not in email) or ('.' not in email):
-    #         raise ValueError("Must provide a valid email")
-    #     return email
-
-    # @hybrid_property
-    # def password_hash(self):
-    #     return self._password_hash
+    @validates('password')
+    def validate_password(self, key, password):
+        if password == "":
+            raise ValueError("Must provide a password")
+        return password
     
-    # @password_hash.setter
-    # def password_hash(self, password):
+    @validates('email')
+    def validate_email(self, key, email):
+        if (email == "") or ('@' not in email) or ('.' not in email):
+            raise ValueError("Must provide a valid email")
+        return email
         
 
 class Song(db.Model, SerializerMixin):

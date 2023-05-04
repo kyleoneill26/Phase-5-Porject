@@ -16,9 +16,6 @@ function Header() {
           <li>
             <Link to="/artists">Artists</Link>
           </li>
-          <li>
-            <Link to="/login">Log In</Link>
-          </li>
         </ul>
       </nav>
     </header>
