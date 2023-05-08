@@ -54,15 +54,22 @@ api.add_resource(Logout, '/logout')
 
 
 class Users(Resource):
-    
+    def get(self):
+        users = Users.query.all()
+        users_dict = [user.to_dict() for user in users]
+        if users == None:
+            return make_response( { 'error' : '404: User Not Found' } )
+        return make_response( users_dict, 200 )
+
+
     def post(self):
         data = request.get_json()
         try:
             new_user = User(
-                name= data['name'],
-                genre= data['genre'],
-                
-                image= data['image']
+                fname = data['fname'],
+                lname = data['lname'],
+                email = data['email'],
+                password = data['password'],
             )
         except: 
             return make_response({'error': '400 validation error'} ,400)

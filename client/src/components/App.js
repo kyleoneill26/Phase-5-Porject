@@ -2,6 +2,11 @@ import React, { useEffect, useState } from "react";
 import { Switch, Route, NavLink, useHistory } from "react-router-dom";
 import Login from "./Login";
 import Header from "./Header";
+import NavBar from "./NavBar";
+import AccountPage from "./AccountPage";
+import CreateAccount from "./CreateAccount";
+
+
 
 
 
@@ -23,31 +28,31 @@ function App() {
     history.push('/')
 }
 
-const onCreateAccount = userObj => {
+  const onCreateAccount = userObj => {
     setUsers( [ ...users, userObj ] )
 }
 
-function onLogin(user) {
-    setCurrentUser(user);
-    history.push('/account')
+  function onLogin(user) {
+  setCurrentUser(user);
+  history.push('/account')
 }
 
-function onDeleteAccount() {
-    const requestOptions = {
-        method: 'DELETE',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({id: currentUser.id})
-    };
-    fetch(`/playlists/${currentUser.id}`, requestOptions)
-        .then(setCurrentUser(null))
-        .then(history.push('/'))
-}
+// function onDeleteAccount() {
+//     const requestOptions = {
+//         method: 'DELETE',
+//         headers: { 'Content-Type': 'application/json' },
+//         body: JSON.stringify({id: currentUser.id})
+//     };
+//     fetch(`/playlists/${currentUser.id}`, requestOptions)
+//         .then(setCurrentUser(null))
+//         .then(history.push('/'))
+// }
 
   
 useEffect(() => {
   fetch("/check_session").then((response) => {
       if (response.ok) {
-          response.json().then((customer) => setCurrentUser(customer));
+          response.json().then((user) => setCurrentUser(user));
       }
   });
   }, []);
@@ -80,11 +85,11 @@ useEffect(() => {
       .then(setPlaylists)
   }, [])
 
-  useEffect(() => {
-    fetch('/users')
-      .then((r) => r.json())
-      .then(setUsers)
-  }, [])
+  // useEffect(() => {
+  //   fetch('/users')
+  //     .then((r) => r.json())
+  //     .then(setUsers)
+  // }, [])
 
 
 
@@ -98,7 +103,9 @@ useEffect(() => {
 
   return (
     <div className='App'>
-        <Login></Login>
+      <Login></Login>
+      
+    
          
           
            

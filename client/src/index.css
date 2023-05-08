@@ -1,0 +1,27 @@
+.navbar{
+    background-color: #161616 !important;
+  }
+  
+  
+  #search-box:focus{
+    outline: 2px solid #00CE79 !important;
+  outline: none;
+  }
+
+  *{
+    margin:0;
+    padding:0;
+    box-sizing: border-box;
+  }
+  
+  body{
+    font-family: 'Open Sans', sans-serif;
+    overflow-x: hidden;
+    background: #ffffff !important;
+  }
+  a{
+    text-decoration: none !important;
+  }
+  li{
+    list-style: none;
+  } 

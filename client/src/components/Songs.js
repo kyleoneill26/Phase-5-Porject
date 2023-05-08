@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import SongCard from "./SongCard"
 import { UserContext } from "../context/user";
 
-function Songs({songs}) {
+function Songs() {
     
     const { user, setUser } = useContext(UserContext);
     const [songs, setSongs] = useState([]);
