@@ -5,7 +5,7 @@ import Header from "./Header";
 import NavBar from "./NavBar";
 import AccountPage from "./AccountPage";
 import CreateAccount from "./CreateAccount";
-import Songs from "./Songs";
+import UpdateAccount from "./UpdateAccount";
 
 
 
@@ -114,10 +114,20 @@ useEffect(() => {
             <Route path='/login'>
                 <Login className="App-header" currentUser={currentUser} onLogin={onLogin} onLogout={onLogout} />
             </Route>
+            <Route path='/login'>
+                <Login className="App-header" currentUser={currentUser} onLogin={onLogin} onLogout={onLogout} />
+            </Route>
+            <Route path='/register'>
+                  <CreateAccount className="App-header" currentUser={currentUser} onLogout={onLogout} onCreateAccount={onCreateAccount} />
+            </Route>
+            <Route path='/update_account'>
+                  <UpdateAccount className="App-header" currentUser={currentUser} setCurrentUser={setCurrentUser} onLogout={onLogout}  />
+            </Route>
          
             <Route path='/'>
                 <AccountPage className="App-header"/>
             </Route>
+            
             <Route path='*'>
                 <h1>404 not found</h1>
             </Route>

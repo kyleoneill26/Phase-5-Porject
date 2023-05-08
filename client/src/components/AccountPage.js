@@ -26,7 +26,7 @@ function AccountPage({currentUser, onLogout}) {
                 <div>
                     <NavLink className='NavLink' exact to = '/Login'>Login</NavLink>
                     <br />
-                    <NavLink className='NavLink' exact to = '/CreateAccount'>Create an Account</NavLink>
+                    <NavLink className='NavLink' exact to = '/CreateAccount'>Update Account</NavLink>
                 </div>)}
                 
         </div>
