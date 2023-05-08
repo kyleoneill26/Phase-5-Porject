@@ -1,11 +1,11 @@
 import React, {useState} from 'react'
 
 
-function SongCard({song, user}) {
+function SongCard() {
 
-    const handleClick = () => {
-        setCreateForm(!createForm)
-    }
+    // const handleClick = () => {
+    //     setCreateForm(!createForm)
+    // }
 
     return (
         <div className="songCard">

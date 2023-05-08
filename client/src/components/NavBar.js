@@ -18,10 +18,10 @@ function NavBar() {
     <div className="collapse navbar-collapse" id="mynavbar">
       <ul className="navbar-nav me-auto">
         <li className="nav-item">
-          <a className="nav-link" href="/Songs">Songs</a>
+          <a className="nav-link" href="/songs">Songs</a>
         </li>
         <li className="nav-item">
-          <a className="nav-link" href="/Playlists">Playlists</a>
+          <a className="nav-link" href="/playlists">Playlists</a>
         </li>
       </ul>     
     </div>

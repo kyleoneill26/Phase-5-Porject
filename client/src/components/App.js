@@ -5,6 +5,9 @@ import Header from "./Header";
 import NavBar from "./NavBar";
 import AccountPage from "./AccountPage";
 import CreateAccount from "./CreateAccount";
+import Songs from "./Songs";
+
+
 
 
 
@@ -103,15 +106,24 @@ useEffect(() => {
 
   return (
     <div className='App'>
-      <Login></Login>
-      
-    
-         
-          
-           
-            
+    <header>
+        { currentUser ? (<div>Welcome, {currentUser.fname} {currentUser.lname}!</div>) : <div><NavLink className='NavLink' exact to = '/login'>Login</NavLink></div>}
+        <NavBar className="App-header"/>
+        <Switch>
        
-    </div>
+            <Route path='/login'>
+                <Login className="App-header" currentUser={currentUser} onLogin={onLogin} onLogout={onLogout} />
+            </Route>
+         
+            <Route path='/'>
+                <AccountPage className="App-header"/>
+            </Route>
+            <Route path='*'>
+                <h1>404 not found</h1>
+            </Route>
+        </Switch>
+    </header>
+</div>
 
 );
 }
